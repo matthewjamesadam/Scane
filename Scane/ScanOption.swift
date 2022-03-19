@@ -121,20 +121,16 @@ class ScanOption<T: ScanOptionValue>: IScanOption {
         return self.value_
     }
     
-    // FIXME: genesys driver issue, remove when fixed
-    // https://gitlab.com/sane-project/backends/-/issues/383
-    let MIN_PREVIEW_RESOLUTION = 150
-    
     override var minimumPossibleValue: SANEActionValue? {
         switch self.descriptor.constraint {
         case .intRange(range: let range):
-            return max(range.min, MIN_PREVIEW_RESOLUTION)
+            return range.min
         case .fixedRange(range: let range):
-            return max(range.min, Double(MIN_PREVIEW_RESOLUTION))
+            return range.min
         case .intList(list: let list):
-            return list.filter({$0 >= MIN_PREVIEW_RESOLUTION}).min()
+            return list.min()
         case .fixedList(list: let list):
-            return list.filter({$0 >= Double(MIN_PREVIEW_RESOLUTION)}).min()
+            return list.min()
         case .stringList(list: let list):
             return list.min()
         default:

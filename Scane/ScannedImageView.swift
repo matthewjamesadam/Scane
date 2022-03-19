@@ -14,6 +14,8 @@ struct ScannedImageView: View {
     let nsImage: NSImage
     private let idealViewSize = CGFloat(500.0)
     
+    @State var error: ErrorDefinition?
+
     @Environment(\.hostingWindow) var hostingWindow
 
     init(image: CGImage) {
@@ -62,11 +64,12 @@ struct ScannedImageView: View {
             imageData = imageRep.representation(using: .jpeg, properties: [.compressionFactor: options.jpegQuality])
         }
         
+        
         do {
             try imageData?.write(to: path)
         }
         catch {
-            // FIXME show error
+            self.error = ErrorDefinition(error, "An error occurred saving the image")
         }
     }
     
@@ -95,5 +98,6 @@ struct ScannedImageView: View {
             }
         }
         .padding()
+        .alert(item: $error, content: { error in error.toAlert() })
     }
 }

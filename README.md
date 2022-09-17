@@ -4,6 +4,7 @@ A MacOS frontend for [SANE](http://www.sane-project.org).
 
 Did Apple unceremoniously drop support for your scanner?  Did the manufacturer stop updating its own drivers?  Don't dump that old thing in the local watershed, Scane will let you continue using your beloved device for many years to come.  Maybe!
 
+![Screenshot](./Docs/Screenshot.png)
 
 ## Requirements
 

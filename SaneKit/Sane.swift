@@ -39,7 +39,7 @@ public enum SANEError: LocalizedError {
 }
 
 // Static dictionary mapping error strings
-// We do this on initialization so it happesn on the right thread
+// We do this on initialization so it happens on the right thread
 private var errorStringMap = Dictionary<Int, String>()
 
 public struct SANEDevice {

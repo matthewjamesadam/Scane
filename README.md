@@ -11,7 +11,7 @@ Did Apple unceremoniously drop support for your scanner?  Did the manufacturer s
 You will need:
 
 * A Mac with at least MacOS Catalina
-* [A device supported by SANE](http://www.sane-project.org/sane-mfgs.html).
+* [A device supported by SANE](http://www.sane-project.org/sane-mfgs.html)
 * Possibly, some amount of luck
 
 
@@ -22,7 +22,7 @@ Scane was designed to make the simplest use case work well: a single scanner con
 * SANE's "advanced" device properties are not shown, purely because the advanced properties for my own scanner were boring.
 * Planar RGB devices don't yet work.  Which scanners are planar RGB devices?  I dunno!
 * Scanners with indeterminate line length don't yet work.  I think this is mostly sheet-fed scanners.
-* No SANE custom configuratoin can be specified.
+* No SANE custom configuration can be specified.
 
 
 File bugs and feature requests in the Issues page.

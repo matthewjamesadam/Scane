@@ -277,9 +277,9 @@ public struct SANEOptionDescriptor {
     public let constraint: SANEConstraint
 
     init(from saneDescriptor: libsane.SANE_Option_Descriptor) throws {
-        self.name = String(cString: saneDescriptor.name)
-        self.title = String(cString: saneDescriptor.title)
-        self.desc = String(cString: saneDescriptor.desc)
+        self.name = saneDescriptor.name != nil ? String(cString: saneDescriptor.name) : ""
+        self.title = saneDescriptor.title != nil ? String(cString: saneDescriptor.title) : ""
+        self.desc = saneDescriptor.desc != nil ? String(cString: saneDescriptor.desc) : ""
         self.type = try SANEValueType(from: saneDescriptor.type)
         self.unit = try SANEUnit(from: saneDescriptor.unit)
         self.size = Int(saneDescriptor.size)

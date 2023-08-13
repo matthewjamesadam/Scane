@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     
-    @StateObject
-    var manager = ScanManager()
+    @ObservedObject
+    var manager: ScanManager
     
     @State
     var previewImage: CGImage?

@@ -12,6 +12,19 @@ import libsane
 // This tries to stay as close as possible to the C API for easy translation and understanding,
 // while presenting Swift-friendly types.
 
+private extension String {
+    // Sometimes SANE strings are nil, even though the typing says they shouldn't be?
+    // https://github.com/matthewjamesadam/Scane/pull/3
+    init(saneString: SANE_String_Const!) {
+        if (saneString == nil) {
+            self.init()
+        }
+        else {
+            self.init(cString: saneString)
+        }
+    }
+}
+
 public enum SANEError: LocalizedError {
     case status(statusCode: Int)
     case failure
@@ -49,10 +62,10 @@ public struct SANEDevice {
     public let type: String
     
     init(from saneDevice: libsane.SANE_Device) {
-        name = String(cString: saneDevice.name)
-        vendor = String(cString: saneDevice.vendor)
-        model = String(cString: saneDevice.model)
-        type = String(cString: saneDevice.type)
+        name = String(saneString: saneDevice.name)
+        vendor = String(saneString: saneDevice.vendor)
+        model = String(saneString: saneDevice.model)
+        type = String(saneString: saneDevice.type)
     }
 }
 
@@ -213,7 +226,7 @@ private func convertStringList(listPtr: UnsafePointer<SANE_String_Const?>) -> [S
     var currentPtr = listPtr
     var values = [String]()
     while let currentValue = currentPtr.pointee {
-        values.append(String(cString: currentValue))
+        values.append(String(saneString: currentValue))
         currentPtr = currentPtr + 1
     }
     
@@ -277,9 +290,9 @@ public struct SANEOptionDescriptor {
     public let constraint: SANEConstraint
 
     init(from saneDescriptor: libsane.SANE_Option_Descriptor) throws {
-        self.name = String(cString: saneDescriptor.name)
-        self.title = String(cString: saneDescriptor.title)
-        self.desc = String(cString: saneDescriptor.desc)
+        self.name = saneDescriptor.name == nil ? "" : String(saneString: saneDescriptor.name)
+        self.title = String(saneString: saneDescriptor.title)
+        self.desc = String(saneString: saneDescriptor.desc)
         self.type = try SANEValueType(from: saneDescriptor.type)
         self.unit = try SANEUnit(from: saneDescriptor.unit)
         self.size = Int(saneDescriptor.size)
@@ -340,7 +353,7 @@ extension String: SANEActionValue {
         self = try self.withCString() { ptr in
             let rawPtr = UnsafeMutableRawPointer(mutating: ptr)
             try cb(rawPtr)
-            let returnValue = String(cString: ptr)
+            let returnValue = String(saneString: ptr)
             return returnValue
         }
     }
@@ -622,5 +635,5 @@ public func saneSetIoMode(handle: SANEHandle, m: Bool) throws {
 // We don't publish this, error strings are published in the thrown Error object
 @SANEActor
 func saneStrStatus(status: libsane.SANE_Status) -> String {
-    return String(cString: libsane.sane_strstatus(status))
+    return String(saneString: libsane.sane_strstatus(status))
 }

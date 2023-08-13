@@ -57,7 +57,7 @@ class ImageBuffer {
         let byteBuffer = buffer.bindMemory(to: UInt8.self, capacity: length)
 
         // Copy into scan buffer
-        scanWrite.assign(from: byteBuffer, count: length)
+        scanWrite.update(from: byteBuffer, count: length)
         scanWrite += length
         
         // Process a line repeatedly, while we have enough data for a line
@@ -67,12 +67,12 @@ class ImageBuffer {
             if param.format == .rgb {
                 
                 // Write alpha values
-                imageCurrent.assign(repeating: 255, count: param.pixelsPerLine * param.depth / 2)
+                imageCurrent.update(repeating: 255, count: param.pixelsPerLine * param.depth / 2)
                 
                 // Write each pixel
                 var scanPixel = scanCurrent
                 for _ in 0..<param.pixelsPerLine {
-                    imageCurrent.assign(from: scanPixel, count: 3 * param.depth / 8)
+                    imageCurrent.update(from: scanPixel, count: 3 * param.depth / 8)
                     imageCurrent += (4 * param.depth / 8)
                     scanPixel += (3 * param.depth / 8)
                 }
@@ -81,7 +81,7 @@ class ImageBuffer {
             // Grey/red/green/blue line: copy all pixels in one go
             else {
                 let toCopy = param.pixelsPerLine * param.depth / 8
-                imageCurrent.assign(from: scanCurrent, count: toCopy)
+                imageCurrent.update(from: scanCurrent, count: toCopy)
                 imageCurrent += toCopy
             }
             

@@ -2,6 +2,6 @@
 /* module.modulemap */
 
 module libsane [system] {
-    header "../../ScaneDeps/include/sane/sane.h"
+    header "../deps/include/sane.h"
     export *
 }

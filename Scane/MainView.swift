@@ -119,6 +119,7 @@ struct MainView: View {
                 Spacer()
             }
             .padding(.horizontal)
+            .frame(minWidth: 300)
 
             // Right panel
             ZStack {

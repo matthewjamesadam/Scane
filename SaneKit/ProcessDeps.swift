@@ -68,8 +68,37 @@ let jpegLib = DepLib(
         "x86_64": "4ced360a9d7c567dc49ae6dc6370ed92edbeb0ed6917c40bc56aa3ba73e51ce5", // big_sur
 ])
 
+let xzLib = DepLib(
+    name: "xz",
+    version: "5.4.4",
+    libName: "libxz",
+    dylibName: "liblzma.dylib",
+    shas: [
+        "arm64":  "1857edbbd38cff88854e529670e708e6d87e9d01641e291efee79cafa82fe5b2", // arm64_big_sur
+        "x86_64": "7bc66bbf17c331e226b65947a7b2c326a883bc70ccdd13127802612713ae1cc2", // big_sur
+])
 
-let depLibs = [ saneLib, usbLib, pngLib, tiffLib, jpegLib ]
+let zstdLib = DepLib(
+    name: "zstd",
+    version: "1.5.5",
+    libName: "libzstd",
+    dylibName: "libzstd.dylib",
+    shas: [
+        "arm64":  "4189e80e2dc006e79f08b8e7588773cbd93defbe908c9adf85aa666ee2911f98", // arm64_big_sur
+        "x86_64": "23c726bf4b71f74ac69bd4a6b67541b08c245f5b3ed6630c7ab914082655457c", // big_sur
+])
+
+let lz4Lib = DepLib(
+    name: "lz4",
+    version: "1.9.4",
+    libName: "liblz4",
+    dylibName: "liblz4.dylib",
+    shas: [
+        "arm64":  "8cf59a354786ad0ed95a7b531d7149ae03612081818dcdf2d9ca8cb4fe28c07a", // arm64_big_sur
+        "x86_64": "aafb93487e108d302d060265898e4eaa82f5c806ff36dec50871db1c33fdc04d", // big_sur
+])
+
+let depLibs = [ saneLib, usbLib, pngLib, tiffLib, jpegLib, xzLib, zstdLib, lz4Lib ]
 
 guard let buildProductsDir = ProcessInfo.processInfo.environment["BUILT_PRODUCTS_DIR"],
       let frameworksFolderPath = ProcessInfo.processInfo.environment["FRAMEWORKS_FOLDER_PATH"],

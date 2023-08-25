@@ -84,6 +84,8 @@ let buildProductsUrl = URL(fileURLWithPath: buildProductsDir, isDirectory: true)
 let frameworksFolder = buildProductsUrl.appendingPathComponents(frameworksFolderPath)
 let sharedSupportFolder = buildProductsUrl.appendingPathComponents(sharedSupportFolderPath)
 
+let etcFolder = sharedSupportFolder.appendingPathComponents("sane.d")
+
 let srcRootFolder = URL(fileURLWithPath: srcRoot, isDirectory: true)
 
 let fileMgr = FileManager.default
@@ -256,6 +258,7 @@ func embedLibs() throws {
     try fileMgr.createDirectory(at: libFolder.appendingPathComponents("sane"), withIntermediateDirectories: true)
     try fileMgr.createDirectory(at: includeFolder, withIntermediateDirectories: true)
     try fileMgr.createDirectory(at: frameworksFolder.appendingPathComponents("sane"), withIntermediateDirectories: true)
+    try fileMgr.createDirectory(at: etcFolder, withIntermediateDirectories: true)
 
     // Create root dylibs
     for depLib in depLibs {
@@ -272,7 +275,7 @@ func embedLibs() throws {
     // Copy /etc
     print("Copying /etc files...")
     let srcEtcFolder = tmpFolder.appendingPathComponents("\(saneLib.name)-arm64", saneLib.name, saneLib.version, "etc", "sane.d")
-    try run("rsync", "-rtvh", "\(srcEtcFolder.path)/", "\(sharedSupportFolder.path)/")
+    try run("rsync", "-rtvh", "\(srcEtcFolder.path)/", "\(etcFolder.path)/")
 
     // Copy /lib -- from derived data into frameworks output
     print("Copying /lib files...")

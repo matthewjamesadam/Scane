@@ -290,7 +290,7 @@ public struct SANEOptionDescriptor {
     public let constraint: SANEConstraint
 
     init(from saneDescriptor: libsane.SANE_Option_Descriptor) throws {
-        self.name = saneDescriptor.name == nil ? "" : String(saneString: saneDescriptor.name)
+        self.name = String(saneString: saneDescriptor.name)
         self.title = String(saneString: saneDescriptor.title)
         self.desc = String(saneString: saneDescriptor.desc)
         self.type = try SANEValueType(from: saneDescriptor.type)
